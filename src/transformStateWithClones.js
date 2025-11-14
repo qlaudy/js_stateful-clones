@@ -11,17 +11,23 @@ function transformStateWithClones(state, actions) {
   let currentState = { ...state };
   const result = [];
 
-  for (const key of actions) {
+  for (const action of actions) {
     let nextState = { ...currentState };
 
-    if (key.type === 'clear') {
-      nextState = {};
-    } else if (key.type === 'addProperties') {
-      nextState = { ...nextState, ...key.extraData };
-    } else if (key.type === 'removeProperties') {
-      for (const item of key.keysToRemove) {
-        delete nextState[item];
-      }
+    switch (action.type) {
+      case 'clear':
+        nextState = {};
+
+      // eslint-disable-next-line no-fallthrough
+      case 'addProperties':
+        nextState = { ...nextState, ...action.extraData };
+        break;
+
+      case 'removeProperties':
+        for (const item of action.keysToRemove) {
+          delete nextState[item];
+        }
+        break;
     }
 
     result.push(nextState);
