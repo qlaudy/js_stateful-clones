@@ -17,6 +17,7 @@ function transformStateWithClones(state, actions) {
     switch (action.type) {
       case 'clear':
         nextState = {};
+        break
 
       // eslint-disable-next-line no-fallthrough
       case 'addProperties':
@@ -27,6 +28,9 @@ function transformStateWithClones(state, actions) {
         for (const item of action.keysToRemove) {
           delete nextState[item];
         }
+        break;
+
+      default:
         break;
     }
 
